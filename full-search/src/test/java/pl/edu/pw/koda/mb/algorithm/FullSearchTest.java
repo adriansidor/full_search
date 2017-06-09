@@ -1,9 +1,19 @@
 package pl.edu.pw.koda.mb.algorithm;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 public class FullSearchTest {
 	
@@ -22,5 +32,43 @@ public class FullSearchTest {
 		
 		Mat newImage = mc.compensate(imgR, motionVectors, mbSize);
 		Imgcodecs.imwrite("src\\main\\resources\\db3.jpg", newImage);
+	}
+	
+	@Test
+	public void calculateHistogram() throws IOException {
+		// nasz histogram, na razie pusty
+		Mat histogram = new Mat();
+		// wczytujemy obraz ktorego histogram chcemy uzyskac
+		Mat imgA = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		List<Mat> images = new ArrayList<Mat>(1);
+		images.add(imgA);
+		// obliczamy histogram
+		Imgproc.calcHist(images, new MatOfInt(0), new Mat(), histogram, new MatOfInt(256), new MatOfFloat(0, 256));
+		// zapisujemy histogram do pliku, mozna go potem wczytać do excela i zrobic wykres
+		File file = new File("src\\main\\resources\\hist.txt");
+		FileWriter fw = new FileWriter(file);
+		BufferedWriter bw = new BufferedWriter(fw);
+		for(int i = 0; i<256; i++) {
+			double[] p = histogram.get(i, 0);
+			bw.write(String.valueOf(p[0]));
+			bw.newLine();
+		}
+		bw.close();
+		fw.close();
+	}
+	
+	@Test
+	public void calculateEntropy() {
+		// nasz histogram, na razie pusty
+		Mat histogram = new Mat();
+		// wczytujemy obraz ktorego histogram chcemy uzyskac
+		Mat imgA = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		List<Mat> images = new ArrayList<Mat>(1);
+		images.add(imgA);
+		// obliczamy histogram
+		Imgproc.calcHist(images, new MatOfInt(0), new Mat(), histogram, new MatOfInt(256), new MatOfFloat(0, 256));
+		// obliczamy entropie
+		double entropy = ImageUtils.computeEntropy(histogram);
+		System.out.println(entropy);
 	}
 }
