@@ -21,8 +21,12 @@ public class FullSearchTest {
 
 	@Test
 	public void test() {
-		Mat imgA = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
-		Mat imgR = Imgcodecs.imread("src\\main\\resources\\db1.jpg");
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat img2 = Imgcodecs.imread("src\\main\\resources\\db1.jpg");
+		Mat imgA = new Mat();
+		Mat imgR = new Mat();
+		Imgproc.cvtColor(img1, imgA, Imgproc.COLOR_RGB2YUV);
+		Imgproc.cvtColor(img2, imgR, Imgproc.COLOR_RGB2YUV);
 		int mbSize = 16;
 		int p = 32;
 		FullSearch algorithm = new FullSearch();
@@ -30,7 +34,7 @@ public class FullSearchTest {
 		
 		MotionVector[][] motionVectors = algorithm.execute(imgA, imgR, mbSize, p, new CostFuncMAD());
 		
-		Mat newImage = mc.compensate(imgR, motionVectors, mbSize);
+		Mat newImage = mc.compensate(img2, motionVectors, mbSize);
 		Imgcodecs.imwrite("src\\main\\resources\\db3.jpg", newImage);
 	}
 	
@@ -39,7 +43,9 @@ public class FullSearchTest {
 		// nasz histogram, na razie pusty
 		Mat histogram = new Mat();
 		// wczytujemy obraz ktorego histogram chcemy uzyskac
-		Mat imgA = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat imgA = new Mat();
+		Imgproc.cvtColor(img1, imgA, Imgproc.COLOR_RGB2YUV);
 		List<Mat> images = new ArrayList<Mat>(1);
 		images.add(imgA);
 		// obliczamy histogram
@@ -62,7 +68,9 @@ public class FullSearchTest {
 		// nasz histogram, na razie pusty
 		Mat histogram = new Mat();
 		// wczytujemy obraz ktorego histogram chcemy uzyskac
-		Mat imgA = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat imgA = new Mat();
+		Imgproc.cvtColor(img1, imgA, Imgproc.COLOR_RGB2YUV);
 		List<Mat> images = new ArrayList<Mat>(1);
 		images.add(imgA);
 		// obliczamy histogram
