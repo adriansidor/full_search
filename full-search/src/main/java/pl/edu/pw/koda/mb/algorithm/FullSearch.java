@@ -61,7 +61,7 @@ public class FullSearch {
 						double cost = 0;
 						for(int a = 0; a<mbSize; a++) {
 							for(int b = 0; b<mbSize; b++) {
-								cost += costFunction.compute(getBrightness(imgA.get(actBlkHor+b, actBlkVer+a)), getBrightness(imgR.get(refBlkHor+b, refBlkVer+a)));
+								cost += costFunction.compute(imgA.get(actBlkHor+b, actBlkVer+a)[0], imgR.get(refBlkHor+b, refBlkVer+a)[0]);
 							}
 						}
 						costs[vectorIndex] = new MotionVector(n, m, cost*c);
@@ -92,17 +92,6 @@ public class FullSearch {
 		}
 		
 		return false;
-	}
-	
-	private double getBrightness(double[] p1) {
-		int b = 0;
-		// 3 kanały RGB
-		// intensywność to średnia
-		for(int i = 0; i<3; i++) {
-			b += p1[i];
-		}
-		
-		return b/3;
 	}
 	
 	private MotionVector getMinVector(MotionVector[] vectors) {
