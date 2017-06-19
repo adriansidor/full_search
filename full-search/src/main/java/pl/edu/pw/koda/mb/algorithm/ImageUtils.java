@@ -10,7 +10,9 @@ public class ImageUtils {
 		for (int i=0; i<histogram.rows(); i++)
 		{
 		    double[] binEntry = histogram.get(i,0);
-		        entropy -= (binEntry[0]/sum) * log(binEntry[0]/sum, 2);
+		    if(binEntry[0] > 0.0) {
+		    	entropy -= (binEntry[0]/sum) * log(binEntry[0]/sum, 2);
+		    }
 		}
 		
 		return entropy;
