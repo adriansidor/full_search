@@ -43,7 +43,7 @@ public class FullSearchTest {
 		// nasz histogram, na razie pusty
 		Mat histogram = new Mat();
 		// wczytujemy obraz ktorego histogram chcemy uzyskac
-		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db1.jpg");
 		Mat imgA = new Mat();
 		Imgproc.cvtColor(img1, imgA, Imgproc.COLOR_RGB2YUV);
 		List<Mat> images = new ArrayList<Mat>(1);
@@ -68,7 +68,7 @@ public class FullSearchTest {
 		// nasz histogram, na razie pusty
 		Mat histogram = new Mat();
 		// wczytujemy obraz ktorego histogram chcemy uzyskac
-		Mat img1 = Imgcodecs.imread("src\\main\\resources\\db2.jpg");
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\kodaHsubstract.jpg");
 		Mat imgA = new Mat();
 		Imgproc.cvtColor(img1, imgA, Imgproc.COLOR_RGB2YUV);
 		List<Mat> images = new ArrayList<Mat>(1);
@@ -78,5 +78,23 @@ public class FullSearchTest {
 		// obliczamy entropie
 		double entropy = ImageUtils.computeEntropy(histogram);
 		System.out.println(entropy);
+	}
+	
+	@Test
+	public void subtract() {
+
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\2bkoda.jpg");
+		Mat img2 = Imgcodecs.imread("src\\main\\resources\\kodaBfullsearch.jpg");
+		Mat img3 = new Mat(img1.height(), img1.width(), img1.type());
+		Core.absdiff(img1, img2, img3);
+		Imgcodecs.imwrite("src\\main\\resources\\kodaBsubstract.jpg", img3);    
+	}
+	
+	@Test
+	public void error() {
+		Mat img1 = Imgcodecs.imread("src\\main\\resources\\2bkoda.jpg");
+		Mat img2 = Imgcodecs.imread("src\\main\\resources\\kodaBfullsearch.jpg");
+		double error = ImageUtils.error(img1, img2, new CostFuncMAD());
+		System.out.println(error);
 	}
 }

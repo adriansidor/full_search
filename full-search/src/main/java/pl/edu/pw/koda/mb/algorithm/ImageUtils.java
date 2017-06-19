@@ -32,4 +32,18 @@ public class ImageUtils {
 	{
 	    return (Math.log(x) / Math.log(base));
 	}
+	
+	public static double error(Mat imgA, Mat imgB, CostFunction costFunction) {
+		double error = 0.0;
+		for (int i=0; i<imgA.rows(); i++)
+		{
+			for(int j=0; j<imgA.cols(); j++) {
+				double a = imgA.get(i,j)[0];
+				double b = imgB.get(i,j)[0];
+				error += costFunction.compute(a, b);
+			}
+		}
+		
+		return error;
+	}
 }
